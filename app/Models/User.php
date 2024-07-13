@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\GenderEnum;
+use App\Enums\UserStatusEnum;
+use App\Traits\WithOtp;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +15,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements FilamentUser
 {
-    use HasFactory, Notifiable, HasApiTokens, SoftDeletes;
+    use HasFactory, Notifiable, HasApiTokens, SoftDeletes, WithOtp;
 
     /**
      * The attributes that are mass assignable.
@@ -53,7 +55,10 @@ class User extends Authenticatable implements FilamentUser
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'is_admin' => 'bool'
+            'is_admin' => 'boolean',
+            'newsletter' => 'boolean',
+            'gender' => GenderEnum::class,
+            'status' => UserStatusEnum::class,
         ];
     }
 

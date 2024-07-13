@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('primary_lang', 20)->nullable();
             $table->text('other_lang')->nullable();
             $table->tinyInteger('newsletter')->default(0);
-            $table->tinyInteger('status')->default(0);
+            $table->tinyInteger('status')->default(1);
             $table->tinyInteger('is_admin')->default(0);
             $table->rememberToken();
             $table->softDeletes();

@@ -2,12 +2,15 @@
 
 namespace Database\Factories;
 
+use App\Enums\GenderEnum;
+use App\Enums\UserStatusEnum;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ * @extends Factory<User>
  */
 class UserFactory extends Factory
 {
@@ -29,8 +32,12 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
-            'is_admin' => 0,
-            'status' => 1
+            'gender' => GenderEnum::MALE->value,
+            'nationality' => fake()->country(),
+            'primary_lang' => 'English',
+            'other_lang' => 'Other',
+            'is_admin' => false,
+            'status' => UserStatusEnum::ACTIVE->value
         ];
     }
 
@@ -44,10 +51,53 @@ class UserFactory extends Factory
         ]);
     }
 
+    /**
+     * Indicate that the user is an Admin.
+     */
     public function admin(): static
     {
         return $this->state(fn (array $attributes) => [
-            'is_admin' => 1,
+            'is_admin' => true,
+        ]);
+    }
+
+    /**
+     * Indicate that the user is enrolled to Newsletter
+     */
+    public function newsletter(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'newsletter' => true,
+        ]);
+    }
+
+    /**
+     * Indicate that the user status is Pending
+     */
+    public function pending(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'status' => UserStatusEnum::PENDING->value,
+        ]);
+    }
+
+    /**
+     * Indicate that the user status is Inactive
+     */
+    public function inactive(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'status' => UserStatusEnum::INACTIVE->value,
+        ]);
+    }
+
+    /**
+     * Indicate that the user status is Blocked
+     */
+    public function blocked(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'status' => UserStatusEnum::BLOCKED->value,
         ]);
     }
 }
