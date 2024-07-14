@@ -23,7 +23,8 @@ class User extends Authenticatable implements FilamentUser
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
         'password',
         'gender',
@@ -65,5 +66,10 @@ class User extends Authenticatable implements FilamentUser
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->is_admin;
+    }
+
+    public function getNameAttribute(): string
+    {
+        return $this->first_name.' '.$this->last_name;
     }
 }

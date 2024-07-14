@@ -84,10 +84,6 @@ class AuthService extends BaseService
     {
         $user = $this->user->where('email', $email)->first();
 
-        if (!$user) {
-            return $this->error('User not found', Response::HTTP_NOT_FOUND);
-        }
-
         $otp = $user->createOtp();
         $user->notify(new ForgotPasswordNotification($otp->otp));
 

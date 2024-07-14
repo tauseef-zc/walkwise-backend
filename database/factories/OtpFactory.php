@@ -24,7 +24,7 @@ class OtpFactory extends Factory
             'otp' => random_int(100000, 999999),
             'expires_at' => now()->addMinutes(60),
             'verified' => false,
-            'taggable_id' => 1,
+            'taggable_id' => random_int(1, 100),
             'taggable_type' => User::class,
         ];
     }
