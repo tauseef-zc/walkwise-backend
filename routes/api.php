@@ -3,7 +3,6 @@
 use App\Http\Controllers\V1\Api\Auth\ForgotPasswordController;
 use App\Http\Controllers\V1\Api\Auth\LoginController;
 use App\Http\Controllers\V1\Api\Auth\LogoutController;
-use App\Http\Controllers\V1\Api\Auth\OtpVerificationController;
 use App\Http\Controllers\V1\Api\Auth\RegisterController;
 use App\Http\Controllers\V1\Api\Auth\ResetPasswordController;
 use App\Http\Controllers\V1\Api\Auth\UserController;
