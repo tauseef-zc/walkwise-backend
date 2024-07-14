@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('travelers', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name', 50);
-            $table->string('last_name', 50);
+            $table->string('name', 100);
             $table->string('phone', 20)->nullable();
             $table->string('avatar', 50)->nullable();
             $table->json('emergency_contact')->nullable();
