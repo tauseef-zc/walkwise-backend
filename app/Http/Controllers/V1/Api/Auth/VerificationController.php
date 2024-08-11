@@ -4,7 +4,7 @@ namespace App\Http\Controllers\V1\Api\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Jobs\Auth\VerifyUserEmail;
-use App\Services\AuthService;
+use App\Services\Auth\AuthService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

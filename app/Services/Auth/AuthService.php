@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Auth;
 
 use App\Http\Resources\Auth\UserResource;
 use App\Jobs\Auth\VerifyUserEmail;
@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Notifications\Auth\ForgotPasswordNotification;
 use App\Notifications\Auth\ResetPasswordNotification;
 use App\Notifications\Auth\VerifyEmailNotification;
+use App\Services\BaseService;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 

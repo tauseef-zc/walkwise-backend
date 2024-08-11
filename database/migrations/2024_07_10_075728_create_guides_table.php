@@ -16,8 +16,11 @@ return new class extends Migration
             $table->string('name', 100);
             $table->string('phone', 20)->nullable();
             $table->text('bio')->nullable();
-            $table->json('skills')->nullable();
+            $table->json('expertise')->nullable();
+            $table->unsignedInteger('experience')->nullable();
             $table->string('avatar', 50)->nullable();
+            $table->string('document', 50)->nullable();
+            $table->text('languages')->nullable();
             $table->boolean('has_vehicle')->default(false);
             $table->float('rating')->default(0);
             $table->dateTime('verified_at')->nullable();

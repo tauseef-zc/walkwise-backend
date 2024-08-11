@@ -3,7 +3,7 @@
 namespace App\Jobs\Auth;
 
 use App\Models\User;
-use App\Services\AuthService;
+use App\Services\Auth\AuthService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
