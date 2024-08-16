@@ -28,6 +28,7 @@ class UserResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'onboarding' => $this->onboarding,
+            'user_type' => $this->user_type->value
         ];
     }
 }
