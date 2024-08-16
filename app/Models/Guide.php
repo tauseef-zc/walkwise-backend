@@ -7,16 +7,33 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @method updateOrCreate(array $array, array $data)
+ * @property string name
+ * @property string phone
+ * @property string bio
+ * @property string expertise
+ * @property int experience
+ * @property string document
+ * @property string languages
+ * @property string avatar
+ * @property boolean has_vehicle
+ * @property int rating
+ * @property string verified_at
+ * @property int user_id
+ */
 class Guide extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'first_name',
-        'last_name',
+        'name',
         'phone',
         'bio',
-        'skills',
+        'expertise',
+        'experience',
+        'documents',
+        'languages',
         'avatar',
         'has_vehicle',
         'rating',
@@ -30,8 +47,9 @@ class Guide extends Model
     protected function casts(): array
     {
         return [
-            'skills' => 'json',
+            'expertise' => 'array',
             'verified_at' => 'datetime',
+            'documents' => 'array'
         ];
     }
 

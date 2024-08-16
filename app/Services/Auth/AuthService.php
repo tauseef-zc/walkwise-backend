@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Auth;
 
 use App\Http\Resources\Auth\UserResource;
 use App\Jobs\Auth\VerifyUserEmail;
@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Notifications\Auth\ForgotPasswordNotification;
 use App\Notifications\Auth\ResetPasswordNotification;
 use App\Notifications\Auth\VerifyEmailNotification;
+use App\Services\BaseService;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -36,9 +37,9 @@ class AuthService extends BaseService
 
             $user = auth()->user();
 
-            throw_if(!$user->hasVerifiedEmail(), ValidationException::withMessages([
-                'Your email address is not verified.'
-            ]));
+            if (!$user->hasVerifiedEmail()) {
+                VerifyUserEmail::dispatch($user->email);
+            }
 
             return $this->payload([
                 'accessToken' => $user->createToken($user->email)->plainTextToken,
@@ -65,7 +66,8 @@ class AuthService extends BaseService
 
             return $this->payload([
                 'message'  => 'User has been created.',
-                'user' => new UserResource($user)
+                'user' => new UserResource($user),
+                'accessToken' => $user->createToken($user->email)->plainTextToken,
             ],
             Response::HTTP_CREATED);
 
@@ -99,6 +101,13 @@ class AuthService extends BaseService
     public function verifyOtp(array $payload, bool $verifyEmail = false): array
     {
         $user = $this->user->where(['email' => $payload['email']])->first();
+
+        if($user->hasVerifiedEmail()) {
+            return $this->payload([
+                'message'  => 'The otp has been verified.',
+                'accessToken' =>$user->createToken($user->email)->plainTextToken,
+            ]);
+        }
 
         if ($otp = $user->getOtp($payload['otp'])) {
 

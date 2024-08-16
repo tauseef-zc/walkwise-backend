@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\GenderEnum;
 use App\Enums\UserStatusEnum;
+use App\Enums\UserTypesEnum;
 use App\Traits\WithOtp;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
@@ -33,7 +34,9 @@ class User extends Authenticatable implements FilamentUser
         'other_lang',
         'newsletter',
         'is_admin',
-        'status'
+        'status',
+        'onboarding',
+        'user_type'
     ];
 
     /**
@@ -58,8 +61,10 @@ class User extends Authenticatable implements FilamentUser
             'password' => 'hashed',
             'is_admin' => 'boolean',
             'newsletter' => 'boolean',
+            'onboarding' => 'boolean',
             'gender' => GenderEnum::class,
             'status' => UserStatusEnum::class,
+            'user_type' => UserTypesEnum::class
         ];
     }
 

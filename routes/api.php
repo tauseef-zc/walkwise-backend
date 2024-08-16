@@ -7,6 +7,7 @@ use App\Http\Controllers\V1\Api\Auth\RegisterController;
 use App\Http\Controllers\V1\Api\Auth\ResetPasswordController;
 use App\Http\Controllers\V1\Api\Auth\UserController;
 use App\Http\Controllers\V1\Api\Auth\VerificationController;
+use App\Http\Controllers\V1\Api\Guides\RegistrationController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -30,6 +31,16 @@ Route::prefix('v1')->group(function () {
             Route::get('user',UserController::class)->name('user');
             Route::get('logout',LogoutController::class)->name('logout');
             Route::put('reset-password',ResetPasswordController::class)->name('reset.password');
+        });
+
+    });
+
+    // Guide routes
+    Route::prefix('guides')->name('guides.')->group(function () {
+
+        // Protected auth routes
+        Route::middleware('auth:sanctum')->group(function () {
+            Route::post('register', RegistrationController::class)->name('register');
         });
 
     });
