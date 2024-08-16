@@ -19,7 +19,7 @@ return new class extends Migration
             $table->json('expertise')->nullable();
             $table->unsignedInteger('experience')->nullable();
             $table->string('avatar', 50)->nullable();
-            $table->string('document', 50)->nullable();
+            $table->json('documents')->nullable();
             $table->text('languages')->nullable();
             $table->boolean('has_vehicle')->default(false);
             $table->float('rating')->default(0);

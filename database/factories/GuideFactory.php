@@ -23,7 +23,7 @@ class GuideFactory extends Factory
             'bio' => $this->faker->text(),
             'expertise' => [$this->faker->word()],
             'experience' => $this->faker->numberBetween(1,10),
-            'document' => $this->faker->filePath(),
+            'document' => [$this->faker->filePath(), $this->faker->filePath()],
             'avatar' => $this->faker->imageUrl(),
             'languages' => $this->faker->languageCode(),
             'rating' => $this->faker->numberBetween(1,5)

@@ -47,7 +47,6 @@ class RegisterControllerTest extends TestCase
             'last_name',
             'password',
             'password_confirmation',
-            'gender'
         ]);
     }
 

@@ -32,7 +32,7 @@ class Guide extends Model
         'bio',
         'expertise',
         'experience',
-        'document',
+        'documents',
         'languages',
         'avatar',
         'has_vehicle',
@@ -47,8 +47,9 @@ class Guide extends Model
     protected function casts(): array
     {
         return [
-            'expertise' => 'json',
+            'expertise' => 'array',
             'verified_at' => 'datetime',
+            'documents' => 'array'
         ];
     }
 

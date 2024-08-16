@@ -11,7 +11,7 @@ trait ImageHelper
     {
         $renderedName = time() . '_' . Str::random(10) . '.jpg';
 
-        if(request()->has($fileName) && is_string(request()->input($fileName))){
+        if(!request()->hasFile($fileName) && is_string(request()->input($fileName))){
             $image_data = explode(',', request()->input($fileName))[1];
             $image = base64_decode($image_data);
             $path = $path . $renderedName;
@@ -22,7 +22,7 @@ trait ImageHelper
             );
         }
 
-        return $fileName;
+        return $renderedName;
     }
 
 }
