@@ -20,7 +20,6 @@ return new class extends Migration
             $table->unsignedInteger('experience')->nullable();
             $table->string('avatar', 50)->nullable();
             $table->json('documents')->nullable();
-            $table->text('languages')->nullable();
             $table->boolean('has_vehicle')->default(false);
             $table->float('rating')->default(0);
             $table->dateTime('verified_at')->nullable();

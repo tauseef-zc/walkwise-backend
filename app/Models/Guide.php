@@ -33,7 +33,6 @@ class Guide extends Model
         'expertise',
         'experience',
         'documents',
-        'languages',
         'avatar',
         'has_vehicle',
         'rating',

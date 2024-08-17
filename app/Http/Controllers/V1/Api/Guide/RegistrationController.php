@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\V1\Api\Guides;
+namespace App\Http\Controllers\V1\Api\Guide;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Guides\RegisterRequest;
-use App\Services\Guides\RegistrationService;
+use App\Http\Requests\Guide\RegisterRequest;
+use App\Services\Guide\RegistrationService;
 use Illuminate\Http\JsonResponse;
 
 class RegistrationController extends Controller

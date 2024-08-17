@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Services\Guides;
+namespace App\Services\Guide;
 
 use App\Enums\UserTypesEnum;
 use App\Models\Guide;
+use App\Services\Auth\UserService;
 use App\Services\BaseService;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -26,13 +27,13 @@ class RegistrationService extends BaseService
     public function register(array $data): array
     {
         if (isset($data['expertise'])) {
-            $data['expertise'] = json_decode($data['expertise']);
+            $data['expertise'] = json_decode($data['expertise'], true);
         }
 
         $data = $this->uploadDocuments($data);
 
         $guide = $this->model->updateOrCreate(['user_id' => $data['user_id']], $data);
-        $this->updateUser();
+        app(UserService::class)->updateRegisterFields(UserTypesEnum::GUIDE);
 
         return $this->payload(['guide' => $guide], Response::HTTP_CREATED);
     }
@@ -61,21 +62,6 @@ class RegistrationService extends BaseService
         return $data;
     }
 
-    /**
-     * @return void
-     */
-    private function updateUser(): void
-    {
-        if(request()->has('gender')){
-            auth()->user()->update([
-                'gender' => request()->gender,
-                'user_type' => UserTypesEnum::GUIDE
-            ]);
-        }
 
-        if(request()->has('phone')){
-            auth()->user()->update(['onboarding' => false]);
-        }
-    }
 
 }

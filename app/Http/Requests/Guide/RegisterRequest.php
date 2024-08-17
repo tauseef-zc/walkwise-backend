@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Guides;
+namespace App\Http\Requests\Guide;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -28,7 +28,8 @@ class RegisterRequest extends FormRequest
             'phone' => ['sometimes', 'required', 'string'],
             'experience' => ['sometimes', 'numeric'],
             'expertise' => ['sometimes', 'json'],
-            'languages' => ['sometimes', 'string'],
+            'primary_lang' => ['sometimes', 'string'],
+            'other_lang' => ['sometimes', 'json'],
             'rating' => ['sometimes', 'numeric'],
             'verified_at' => ['sometimes', 'date'],
             'has_vehicle' => ['sometimes', 'numeric'],

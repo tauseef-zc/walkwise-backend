@@ -7,7 +7,8 @@ use App\Http\Controllers\V1\Api\Auth\RegisterController;
 use App\Http\Controllers\V1\Api\Auth\ResetPasswordController;
 use App\Http\Controllers\V1\Api\Auth\UserController;
 use App\Http\Controllers\V1\Api\Auth\VerificationController;
-use App\Http\Controllers\V1\Api\Guides\RegistrationController;
+use App\Http\Controllers\V1\Api\Guide\RegistrationController;
+use App\Http\Controllers\V1\Api\Traveler\RegistrationController as TravlerRegistration;
 use Illuminate\Support\Facades\Route;
 
 
@@ -41,6 +42,16 @@ Route::prefix('v1')->group(function () {
         // Protected auth routes
         Route::middleware('auth:sanctum')->group(function () {
             Route::post('register', RegistrationController::class)->name('register');
+        });
+
+    });
+
+    // Traveler routes
+    Route::prefix('travelers')->name('travelers.')->group(function () {
+
+        // Protected auth routes
+        Route::middleware('auth:sanctum')->group(function () {
+            Route::post('register', TravlerRegistration::class)->name('register');
         });
 
     });

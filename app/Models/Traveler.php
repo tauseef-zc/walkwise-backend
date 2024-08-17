@@ -7,13 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @method updateOrCreate(array $array, array $data)
+ */
 class Traveler extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'first_name',
-        'last_name',
+        'name',
         'phone',
         'avatar',
         'emergency_contact',
@@ -21,7 +23,9 @@ class Traveler extends Model
         'dietary_restrictions',
         'interests',
         'verified_at',
-        'user_id'
+        'user_id',
+        'nationality',
+        'passport_image'
     ];
 
     /**
@@ -32,7 +36,6 @@ class Traveler extends Model
         return [
             'emergency_contact' => 'json',
             'accessibility' => 'json',
-            'dietary_restrictions' => 'json',
             'interests' => 'json',
             'verified_at' => 'datetime',
         ];

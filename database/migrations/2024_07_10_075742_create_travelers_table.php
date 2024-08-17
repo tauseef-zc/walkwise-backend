@@ -18,9 +18,11 @@ return new class extends Migration
             $table->string('avatar', 50)->nullable();
             $table->json('emergency_contact')->nullable();
             $table->json('accessibility')->nullable();
-            $table->json('dietary_restrictions')->nullable();
+            $table->text('dietary_restrictions')->nullable();
             $table->json('interests')->nullable();
             $table->dateTime('verified_at')->nullable();
+            $table->string('nationality', 100)->nullable();
+            $table->string('passport_image', 100)->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->softDeletes();
