@@ -36,11 +36,11 @@ class RegistrationService extends BaseService
     private function uploadDocs(array $data): array
     {
         if(request()->has('avatar') || request()->hasFile('avatar')){
-            $data['avatar'] = $this->uploadImage('avatar', 'travelers/images/');
+            $data['avatar'] = $this->uploadImage('avatar', 'traveler/images/');
         }
 
         if(request()->hasFile('passport_image')){
-            $data['passport_image'] = request()->file('passport_image')->store('travelers/documents');
+            $data['passport_image'] = request()->file('passport_image')->store('traveler/documents');
         }
 
         return $data;

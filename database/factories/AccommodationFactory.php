@@ -2,10 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\Accommodation;
+use App\Models\Guide;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Accommodation>
+ * @extends Factory<Accommodation>
  */
 class AccommodationFactory extends Factory
 {
@@ -16,8 +18,14 @@ class AccommodationFactory extends Factory
      */
     public function definition(): array
     {
+        $guide = Guide::inRandomOrder()->first();
+        if ($guide === null) {
+            $guide = Guide::factory()->create();
+        }
         return [
-            //
+            'name' => $this->faker->streetName(),
+            'data' => null,
+            'guide_id' => $guide->id
         ];
     }
 }

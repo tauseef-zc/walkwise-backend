@@ -2,13 +2,17 @@
 
 namespace Database\Factories;
 
+use App\Models\TourDay;
+use Database\Factories\helpers\TourFactoryHelper;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\TourDay>
+ * @extends Factory<TourDay>
  */
 class TourDayFactory extends Factory
 {
+    use TourFactoryHelper;
+
     /**
      * Define the model's default state.
      *
@@ -16,8 +20,15 @@ class TourDayFactory extends Factory
      */
     public function definition(): array
     {
+        $index = $this->faker->numberBetween(0, 2);
         return [
-            //
+            'title' => $this->faker->sentence(),
+            'itinerary' => $this->faker->paragraph(),
+            'location' => $this->getRandomLocation(),
+            'accommodation' => ['At Hotel', 'At Resort', 'At Villa'][$index],
+            'meal_plan' => ['Breakfast', 'Breakfast and Lunch', 'Breakfast, Lunch and Dinner'][$index],
         ];
     }
+
+
 }

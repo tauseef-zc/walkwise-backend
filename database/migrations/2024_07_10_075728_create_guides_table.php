@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('phone', 20)->nullable();
             $table->text('bio')->nullable();
             $table->json('expertise')->nullable();
+            $table->json('location')->nullable();
             $table->unsignedInteger('experience')->nullable();
             $table->string('avatar', 50)->nullable();
             $table->json('documents')->nullable();

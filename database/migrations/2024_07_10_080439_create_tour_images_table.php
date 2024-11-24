@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('image', 100);
             $table->boolean('cover')->default(false);
+            $table->unsignedBigInteger('tour_id');
+            $table->foreign('tour_id')->references('id')->on('tours')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });

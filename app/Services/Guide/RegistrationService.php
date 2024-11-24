@@ -45,7 +45,7 @@ class RegistrationService extends BaseService
     private function uploadDocuments(array $data): array
     {
         if(request()->has('avatar') || request()->hasFile('avatar')){
-            $data['avatar'] = $this->uploadImage('avatar', 'guides/images/');
+            $data['avatar'] = $this->uploadImage('avatar', 'guide/images/');
         }
 
         $documents = [
@@ -55,7 +55,7 @@ class RegistrationService extends BaseService
 
         foreach ($documents as $document) {
             if(request()->hasFile($document)){
-                $data['documents'][] = request()->file($document)->store('guides/documents/');
+                $data['documents'][] = request()->file($document)->store('guide/documents/');
             }
         }
 

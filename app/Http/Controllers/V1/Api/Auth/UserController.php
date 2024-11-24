@@ -15,9 +15,12 @@ class UserController extends Controller
      */
     public function __invoke(Request $request): JsonResponse
     {
+        $user = $request->user();
+        $user->load('traveler', 'guide');
+
         return response()->json([
             'data' => [
-                'user'  => UserResource::make($request->user())
+                'user'  => UserResource::make($user)
             ]
         ]);
     }
