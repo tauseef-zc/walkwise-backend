@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('booking_id');
             $table->foreign('booking_id')->references('id')->on('bookings')->onDelete('cascade');
-            $table->unsignedBigInteger('traveler_id');
-            $table->foreign('traveler_id')->references('id')->on('travelers')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->decimal('amount', 8, 2)->default(0);
             $table->unsignedTinyInteger('payment_method')->default(0);
             $table->string('transaction_id', 100)->nullable();

@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('accommodations', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
-            $table->string('location', 100)->nullable();
             $table->json('data')->nullable();
             $table->unsignedBigInteger('guide_id');
             $table->foreign('guide_id')->references('id')->on('guides')->onDelete('cascade');

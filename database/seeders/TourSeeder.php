@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Tour;
 use Illuminate\Database\Seeder;
 
 class TourSeeder extends Seeder
@@ -12,6 +12,6 @@ class TourSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Tour::factory()->count(50)->create();
     }
 }

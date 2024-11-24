@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('tour_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('category', 50);
+            $table->string('category', 100);
+            $table->string('slug', 100)->nullable();
+            $table->string('info', 100)->nullable();
+            $table->string('image')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

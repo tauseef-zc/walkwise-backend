@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('tour_id');
             $table->foreign('tour_id')->references('id')->on('tours')->onDelete('cascade');
-            $table->unsignedBigInteger('traveler_id');
-            $table->foreign('traveler_id')->references('id')->on('travelers')->onDelete('cascade');
-            $table->dateTime('booking_date');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->dateTime('booking_date')->nullable();
             $table->decimal('total', 8, 2)->default(0);
             $table->unsignedInteger('adults')->default(0);
             $table->unsignedInteger('children')->default(0);

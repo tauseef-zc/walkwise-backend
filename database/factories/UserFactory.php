@@ -27,8 +27,8 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'first_name' => fake()->name(),
-            'last_name' => fake()->name(),
+            'first_name' => fake()->firstName(),
+            'last_name' => fake()->lastName(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
@@ -36,7 +36,7 @@ class UserFactory extends Factory
             'gender' => GenderEnum::MALE->value,
             'nationality' => fake()->country(),
             'primary_lang' => 'English',
-            'other_lang' => 'Other',
+            'other_lang' => ['Other'],
             'is_admin' => false,
             'status' => UserStatusEnum::ACTIVE->value
         ];

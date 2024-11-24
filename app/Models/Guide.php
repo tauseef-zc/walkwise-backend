@@ -48,7 +48,8 @@ class Guide extends Model
         return [
             'expertise' => 'array',
             'verified_at' => 'datetime',
-            'documents' => 'array'
+            'documents' => 'array',
+            'location' => 'json',
         ];
     }
 

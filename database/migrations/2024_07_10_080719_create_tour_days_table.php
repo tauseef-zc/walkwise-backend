@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('title', 150);
             $table->text('itinerary')->nullable();
+            $table->text('accommodation')->nullable();
+            $table->json('location')->nullable();
             $table->string('meal_plan', 150)->nullable();
             $table->unsignedBigInteger('tour_id');
             $table->foreign('tour_id')->references('id')->on('tours')->onDelete('cascade');
