@@ -18,9 +18,9 @@ class TourResource extends Resource
 {
     protected static ?string $model = Tour::class;
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 1;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-s-map';
 
     public static function form(Form $form): Form
     {
@@ -82,7 +82,7 @@ class TourResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('title')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('guide.name')
+                Tables\Columns\TextColumn::make('user.name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('price')
                     ->money()
@@ -114,6 +114,7 @@ class TourResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
+            ->defaultSort('created_at', 'desc')
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
@@ -124,6 +125,7 @@ class TourResource extends Resource
     public static function getRelations(): array
     {
         return [
+            RelationManagers\TourDaysRelationManager::class,
             RelationManagers\ImagesRelationManager::class
         ];
     }

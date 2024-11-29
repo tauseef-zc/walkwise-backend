@@ -2,6 +2,10 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Resources\BookingResource\Widgets\BookingChart;
+use App\Filament\Resources\GuideResource\Widgets\GuidesChart;
+use App\Filament\Resources\TourResource\Widgets\ToursChart;
+use App\Filament\Resources\TravelerResource\Widgets\TravelersChart;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -40,7 +44,10 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
+                BookingChart::class,
+                ToursChart::class,
+                GuidesChart::class,
+                TravelersChart::class
             ])
             ->middleware([
                 EncryptCookies::class,
