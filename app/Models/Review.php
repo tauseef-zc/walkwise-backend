@@ -47,7 +47,7 @@ class Review extends Model
     /**
      * @return BelongsTo
      */
-    public function reviewer(): BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'reviewer', 'id');
     }

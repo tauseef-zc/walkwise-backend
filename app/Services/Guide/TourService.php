@@ -3,14 +3,10 @@
 namespace App\Services\Guide;
 
 use App\Models\Tour;
-use App\Models\TourImage;
 use App\Notifications\Guide\TourCreatedNotification;
 use App\Services\BaseService;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
-use Intervention\Image\Drivers\Gd\Driver;
-use Intervention\Image\ImageManager;
 use Intervention\Image\Laravel\Facades\Image;
 
 class TourService extends BaseService
@@ -107,6 +103,11 @@ class TourService extends BaseService
 
     public function getTours(): LengthAwarePaginator
     {
-        return $this->tour->ownTours()->latest()->paginate(8);
+        return $this->tour->ownTours()->verified()->latest()->paginate(8);
+    }
+
+    public function getToursByUser(int $user_id): LengthAwarePaginator
+    {
+        return $this->tour->where('user_id', $user_id)->published()->latest()->paginate(6);
     }
 }

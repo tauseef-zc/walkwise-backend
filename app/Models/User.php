@@ -11,6 +11,7 @@ use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -39,7 +40,8 @@ class User extends Authenticatable implements FilamentUser
         'is_admin',
         'status',
         'onboarding',
-        'user_type'
+        'user_type',
+        'rating'
     ];
 
     /**
@@ -105,6 +107,11 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasOne(Traveler::class, 'user_id');
     }
 
+    public function guide_bookings(): HasManyThrough
+    {
+        return $this->hasManyThrough(Booking::class, Tour::class, 'user_id', 'tour_id');
+    }
+
     /**
      * @return BelongsToMany
      */
@@ -119,5 +126,30 @@ class User extends Authenticatable implements FilamentUser
     public function payments(): HasMany
     {
         return $this->hasMany(Payment::class, 'user_id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(GuideReview::class, 'user_id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function tours(): HasMany
+    {
+        return $this->hasMany(Tour::class, 'user_id');
+    }
+
+    public function getAvatarAttribute(): ?string
+    {
+        return match ($this->user_type->value) {
+            'traveler' => $this->traveler->avatar,
+            'guide' => $this->guide->avatar,
+            default => null,
+        };
     }
 }

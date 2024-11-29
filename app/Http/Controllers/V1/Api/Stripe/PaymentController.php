@@ -33,8 +33,8 @@ class PaymentController extends Controller
     {
         if(request()->user()->id !== $payment->user_id) return response()->json([], JsonResponse::HTTP_FORBIDDEN);
 
-        $payment->load(['booking', 'booking.tour', 'booking.tour.images', 'booking.tour.category', 'booking.tour.guide', 'user']);
-        return response()->json($payment);
+        $payment->load(['booking', 'booking.tour', 'booking.tour.images', 'booking.tour.category', 'booking.tour.user', 'booking.tour.user.guide']);
+        return response()->json(new PaymentResource($payment));
     }
     public function createPaymentIntent(Request $request): JsonResponse
     {

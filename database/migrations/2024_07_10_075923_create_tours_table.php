@@ -27,6 +27,7 @@ return new class extends Migration
             $table->text('exclusions')->nullable();
             $table->text('conditions')->nullable();
             $table->boolean('is_private')->default(false);
+            $table->decimal('rating')->default(0);
             $table->enum('status', TourStatusEnum::values())->default(TourStatusEnum::PENDING->value);
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();

@@ -34,8 +34,8 @@ class TourResource extends Resource
                         Forms\Components\TextInput::make('slug')
                             ->required()
                             ->maxLength(150),
-                        Forms\Components\Select::make('guide_id')
-                            ->relationship('guide', 'name')
+                        Forms\Components\Select::make('user_id')
+                            ->relationship('user', 'last_name')
                             ->searchable()
                             ->preload(),
                         Forms\Components\Select::make('tour_category_id')
@@ -50,10 +50,6 @@ class TourResource extends Resource
                             ->numeric()
                             ->default(0.00)
                             ->prefix('$'),
-                        Forms\Components\TextInput::make('start_point')
-                            ->maxLength(100),
-                        Forms\Components\TextInput::make('end_point')
-                            ->maxLength(100),
                         Forms\Components\TextInput::make('max_packs')
                             ->required()
                             ->numeric()
@@ -64,7 +60,6 @@ class TourResource extends Resource
                             ->columnSpanFull(),
                         Forms\Components\Textarea::make('conditions')
                             ->columnSpanFull(),
-
                     ])
                     ->columns(2),
                     Forms\Components\Section::make([

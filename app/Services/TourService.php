@@ -21,6 +21,7 @@ class TourService extends BaseService
     {
         return $this->tour
             ->filter($filter)
+            ->published()
             ->latest()
             ->paginate(self::PAGINATION);
     }
@@ -31,7 +32,7 @@ class TourService extends BaseService
      */
     public function getFeaturedTours(int $limit = 8): Collection
     {
-        return $this->tour->featured()->limit($limit)->get();
+        return $this->tour->featured()->published()->limit($limit)->get();
     }
 
     public function addToWishlist(Tour $tour): bool
@@ -52,7 +53,7 @@ class TourService extends BaseService
 
     public function getLikedTours(int $limit = 8): Paginator
     {
-        return $this->tour->liked()->paginate($limit);
+        return $this->tour->published()->liked()->paginate($limit);
     }
 
 }

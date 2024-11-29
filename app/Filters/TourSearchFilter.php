@@ -3,6 +3,7 @@
 namespace App\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Log;
 
 class TourSearchFilter extends Filter
 {
@@ -15,7 +16,10 @@ class TourSearchFilter extends Filter
         'byCategories',
         'byLocation',
         'minPrice',
-        'maxPrice'
+        'maxPrice',
+        'byGuests',
+        'fromDate',
+        'toDate'
     ];
 
     public function search(string $value): Builder
@@ -43,6 +47,26 @@ class TourSearchFilter extends Filter
         return $this->builder->where('price', "<=",  $value);
     }
 
+    public function byGuests(int $value): Builder
+    {
+        return $this->builder->where('max_packs', ">=",  $value);
+    }
+
+    public function fromDate(string $value): Builder
+    {
+        Log::info($value);
+        return $this->builder->whereHas('tour_availability', function ($query) use ($value) {
+            $query->whereDate('from', '<=', $value);
+        });
+    }
+
+    public function toDate(string $value): Builder
+    {
+        return $this->builder->whereHas('tour_availability', function ($query) use ($value) {
+            $query->whereDate('to', '>=', $value);
+        });
+    }
+
     public function byLocation(string $value): Builder
     {
         $location = json_decode($value, true);
@@ -51,7 +75,7 @@ class TourSearchFilter extends Filter
 
         return $this->builder->when(!empty($lat) && !empty($lng), function ($query) use ($lat, $lng) {
             $earthRadius = 6371; // Earth's radius in kilometers
-            $radius = 20;
+            $radius = 30;
             return $query->whereRaw(
                 "(
                     $earthRadius * acos(

@@ -5,18 +5,27 @@ use App\Http\Controllers\V1\Api\Auth\LoginController;
 use App\Http\Controllers\V1\Api\Auth\LogoutController;
 use App\Http\Controllers\V1\Api\Auth\RegisterController;
 use App\Http\Controllers\V1\Api\Auth\ResetPasswordController;
+use App\Http\Controllers\V1\Api\Auth\UpdateAccountPasswordController;
 use App\Http\Controllers\V1\Api\Auth\UserController;
 use App\Http\Controllers\V1\Api\Auth\VerificationController;
 use App\Http\Controllers\V1\Api\FeaturedToursController;
+use App\Http\Controllers\V1\Api\Guide\BookingDetailController;
+use App\Http\Controllers\V1\Api\Guide\BookingListingController;
 use App\Http\Controllers\V1\Api\Guide\CreateTourController;
+use App\Http\Controllers\V1\Api\Guide\DashboardController;
 use App\Http\Controllers\V1\Api\Guide\RegistrationController;
 use App\Http\Controllers\V1\Api\Guide\TourListingController;
+use App\Http\Controllers\V1\Api\GuideDetailsController;
+use App\Http\Controllers\V1\Api\GuideSearchController;
+use App\Http\Controllers\V1\Api\Messaging\MessagesController;
+use App\Http\Controllers\V1\Api\Messaging\ThreadController;
 use App\Http\Controllers\V1\Api\Protected\AddReviewController;
 use App\Http\Controllers\V1\Api\Protected\AddToWishlistController;
 use App\Http\Controllers\V1\Api\Protected\RemoveFromWishlistController;
 use App\Http\Controllers\V1\Api\Protected\WishlistController;
 use App\Http\Controllers\V1\Api\SearchTourController;
 use App\Http\Controllers\V1\Api\Stripe\PaymentController;
+use App\Http\Controllers\V1\Api\SubmitContactController;
 use App\Http\Controllers\V1\Api\TourCategoryController;
 use App\Http\Controllers\V1\Api\TourDetailController;
 use App\Http\Controllers\V1\Api\Traveler\RegistrationController as TravelerRegistration;
@@ -43,6 +52,7 @@ Route::prefix('v1')->group(function () {
             Route::get('user',UserController::class)->name('user');
             Route::get('logout',LogoutController::class)->name('logout');
             Route::put('reset-password',ResetPasswordController::class)->name('reset.password');
+            Route::post('update-password', UpdateAccountPasswordController::class)->name('update.password');
         });
 
     });
@@ -53,11 +63,17 @@ Route::prefix('v1')->group(function () {
         // Protected auth routes
         Route::middleware('auth:sanctum')->group(function () {
             Route::post('register', RegistrationController::class)->name('register');
+            Route::get('dashboard', DashboardController::class)->name('dashboard');
+            Route::get('bookings', BookingListingController::class)->name('bookings');
+            Route::get('bookings/{booking}', BookingDetailController::class)->name('bookings.detail');
             Route::prefix('tours')->name('tours.')->group(function (){
                 Route::get('/', TourListingController::class )->name('listing');
                 Route::post('create', CreateTourController::class )->name('create');
             });
         });
+
+        Route::get('search', GuideSearchController::class)->name('search');
+        Route::get('/{guide}', GuideDetailsController::class)->name('detail');
 
     });
 
@@ -90,6 +106,15 @@ Route::prefix('v1')->group(function () {
                 ->name('create.intent');
             Route::get('confirm/{paymentId}', [PaymentController::class, 'confirmPayment'])->name('confirm');
         });
+
+        // Messaging Routes
+        Route::prefix('messages')->name('messages.')->group(function () {
+            Route::post('/threads', [ThreadController::class, 'createThread'])->name('threads');
+            Route::get('/threads/{userId}', [ThreadController::class, 'fetchUserThreads'])
+                ->name('threads.fetch');
+            Route::post('/send', [MessagesController::class, 'sendMessage'])->name('send');
+            Route::get('/list/{threadId}', [MessagesController::class, 'fetchMessages'])->name('list');
+        });
     });
 
     // Guest Routes
@@ -99,6 +124,7 @@ Route::prefix('v1')->group(function () {
         Route::get('featured-tours', FeaturedToursController::class)->name('tours.featured');
         Route::get('search-tours', SearchTourController::class)->name('tours.search');
         Route::get('tours/{tour:slug}', TourDetailController::class)->name('tours.detail');
+        Route::post('contact-submit', SubmitContactController::class)->name('contact.submit');
     });
 
 });

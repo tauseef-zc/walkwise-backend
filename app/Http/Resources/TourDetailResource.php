@@ -27,6 +27,7 @@ class TourDetailResource extends JsonResource
             'conditions' => $this->conditions,
             'price' => $this->price,
             'status' => $this->status,
+            'rating' => $this->rating,
             'featured' => $this->featured,
             'is_liked' => $this->is_liked,
             'location' => is_string($this->location ) ? json_decode($this->location) : $this->location,
@@ -39,6 +40,9 @@ class TourDetailResource extends JsonResource
             'category' => $this->whenLoaded('category', fn ($record) => CategoryResource::make($record)),
             'user' => $this->whenLoaded('user', fn ($record) => UserResource::make($record)),
             'images' => $this->whenLoaded('images', fn ($records) => TourImageResource::collection($records)),
+            'reviews' => $this->whenLoaded('reviews', fn ($records) => ReviewResource::collection($records)),
+            'has_booking' => $this->has_booking,
+            'user_booking' => $this->has_booking ? $this->user_booking : null,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];

@@ -14,8 +14,8 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name', 50);
-            $table->string('last_name', 50);
+            $table->string('first_name', 100);
+            $table->string('last_name', 100);
             $table->string('email', 100)->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('nationality', 100)->nullable();
             $table->string('primary_lang', 50)->nullable();
             $table->text('other_lang')->nullable();
+            $table->decimal('rating')->default(0);
             $table->boolean('newsletter')->default(0);
             $table->tinyInteger('status')->default(1);
             $table->boolean('is_admin')->default(false);

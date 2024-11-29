@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use App\Enums\TourStatusEnum;
+use App\Observers\TourObserver;
 use App\Traits\HasFilter;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,7 +17,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method create(array $data)
  * @method filter(\App\Filters\TourSearchFilter $filter)
  * @method ownTours()
+ * @method published()
+ * @property mixed $location
  */
+
+#[ObservedBy([TourObserver::class])]
 class Tour extends Model
 {
     use HasFactory, HasFilter;
@@ -38,6 +44,7 @@ class Tour extends Model
         'featured',
         'tour_category_id',
         'parent_id',
+        'rating',
         'user_id'
     ];
 
@@ -94,30 +101,96 @@ class Tour extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    /**
+     * @return BelongsToMany
+     */
     public function likes(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'wishlists', 'tour_id', 'user_id');
     }
 
+    /**
+     * @return HasMany
+     */
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class, 'tour_id')->latest();
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function bookings(): HasMany
+    {
+        return $this->hasMany(Booking::class, 'tour_id');
+    }
+
+    public function getUserBookingAttribute(): ?Booking
+    {
+        return $this->bookings->where('user_id', auth()->id())->first();
+    }
+
+    /**
+     * @return bool
+     */
+    public function getHasBookingAttribute(): bool
+    {
+        return $this->bookings->where('user_id', auth()->id())->count() > 0;
+    }
+
+    /**
+     * @return bool
+     */
     public function getIsLikedAttribute(): bool
     {
         return auth()->check() && $this->likes->where('id', auth()->id())->count() > 0;
     }
 
+    /**
+     * @param Builder $builder
+     * @return Builder
+     */
     public function scopeFeatured(Builder $builder): Builder
     {
         return $builder->where('featured', true);
     }
 
+    /**
+     * @param Builder $builder
+     * @return Builder
+     */
+    public function scopePublished(Builder $builder): Builder
+    {
+        return $builder->where('status', TourStatusEnum::PUBLISHED);
+    }
+
+    /**
+     * @param Builder $builder
+     * @return Builder
+     */
+    public function scopeVerified(Builder $builder): Builder
+    {
+        return $builder->whereIn('status', [TourStatusEnum::VERIFIED, TourStatusEnum::PUBLISHED]);
+    }
+
+    /**
+     * @param Builder $builder
+     * @return Builder
+     */
     public function scopeOwnTours(Builder $builder): Builder
     {
         return $builder->where('user_id', auth()->id());
     }
 
+    /**
+     * @param Builder $builder
+     * @return Builder
+     */
     public function scopeLiked(Builder $builder): Builder
     {
         return $builder->whereHas('likes', function ($query) {
             $query->where('user_id', auth()->id());
         });
     }
+
 }

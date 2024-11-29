@@ -21,7 +21,10 @@ class TourDetailController extends Controller
             'images',
             'category',
             'tour_days',
-            'tour_availability'
+            'tour_availability',
+            'reviews',
+            'reviews.user',
+            'bookings' => fn ($query) => $query->where('user_id', auth()->id()),
         ]);
 
         return TourDetailResource::make($tour);

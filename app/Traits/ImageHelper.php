@@ -22,7 +22,7 @@ trait ImageHelper
             );
         }
 
-        return $renderedName;
+        return $path . $renderedName;
     }
 
 }

@@ -37,6 +37,7 @@ class UserFactory extends Factory
             'nationality' => fake()->country(),
             'primary_lang' => 'English',
             'other_lang' => ['Other'],
+            'rating' => $this->faker->randomFloat(1, 1, 5),
             'is_admin' => false,
             'status' => UserStatusEnum::ACTIVE->value
         ];

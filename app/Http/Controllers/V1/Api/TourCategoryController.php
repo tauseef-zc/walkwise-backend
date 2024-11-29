@@ -19,7 +19,7 @@ class TourCategoryController extends Controller
 
     public function index(): JsonResponse
     {
-        return response()->json($this->category->withCount('tours')->get());
+        return response()->json($this->category->withCount(['tours' => fn($query) => $query->published()] )->get());
     }
 
     public function getCategory(String $slug): JsonResponse

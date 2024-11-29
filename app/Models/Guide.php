@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,6 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @method updateOrCreate(array $array, array $data)
+ * @method filter(\App\Filters\GuideSearchFilter $filter)
  * @property string name
  * @property string phone
  * @property string bio
@@ -24,7 +26,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Guide extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, HasFilter, SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -59,5 +61,10 @@ class Guide extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function getIsVerifiedAttribute(): bool
+    {
+        return $this->verified_at !== null;
     }
 }

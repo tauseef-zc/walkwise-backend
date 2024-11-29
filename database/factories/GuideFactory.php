@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Guide;
 use App\Models\User;
+use Database\Factories\helpers\TourFactoryHelper;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class GuideFactory extends Factory
 {
+    use TourFactoryHelper;
     /**
      * Define the model's default state.
      *
@@ -27,7 +29,8 @@ class GuideFactory extends Factory
             'expertise' => [$this->faker->word()],
             'experience' => $this->faker->numberBetween(1,10),
             'documents' => [$this->faker->filePath(), $this->faker->filePath()],
-            'avatar' => '/guides/images/avatar.jpg',
+            'avatar' => '/guide/images/avatar.jpg',
+            'location' => $this->getRandomLocation(),
             'rating' => $this->faker->numberBetween(1,5),
             'user_id' => $user->id,
         ];

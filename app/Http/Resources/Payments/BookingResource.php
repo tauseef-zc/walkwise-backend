@@ -22,6 +22,7 @@ class BookingResource extends JsonResource
             'user_id' => $this->user_id,
             'tour' => $this->whenLoaded('tour', fn($record) => TourResource::make($record)),
             'user' => $this->whenLoaded('user', fn($record) => UserResource::make($record)),
+            'payment' => $this->whenLoaded('payment', fn($record) => PaymentResource::make($record)),
             'booking_date' => $this->booking_date,
             'total' => $this->total,
             'adults' => $this->adults,

@@ -33,6 +33,7 @@ class TourResource extends JsonResource
                 fn($records) => TourAvailabilityResource::collection($records)),
             'status' => $this->status,
             'is_liked' => $this->is_liked,
+            'rating' => $this->rating,
             'location' => is_string($this->location ) ? json_decode($this->location) : $this->location,
             'start_location' => is_string($this->start_point) ? json_decode($this->start_point) : $this->start_point,
             'end_location' => is_string($this->end_point) ? json_decode($this->end_point) : $this->end_point,
