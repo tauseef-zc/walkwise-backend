@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\UserTypesEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,11 +14,23 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
+            $table->string('first_name', 100);
+            $table->string('last_name', 100);
+            $table->string('email', 100)->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->tinyInteger('gender')->nullable();
+            $table->enum('user_type', UserTypesEnum::values())->default('user');
+            $table->string('nationality', 100)->nullable();
+            $table->string('primary_lang', 50)->nullable();
+            $table->text('other_lang')->nullable();
+            $table->decimal('rating')->default(0);
+            $table->boolean('newsletter')->default(0);
+            $table->tinyInteger('status')->default(1);
+            $table->boolean('is_admin')->default(false);
+            $table->boolean('onboarding')->default(true);
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
 
