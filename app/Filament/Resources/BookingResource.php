@@ -125,4 +125,5 @@ class BookingResource extends Resource
             'edit' => Pages\EditBooking::route('/{record}/edit'),
         ];
     }
+
 }

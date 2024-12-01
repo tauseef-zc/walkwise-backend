@@ -15,6 +15,7 @@ use App\Http\Controllers\V1\Api\Guide\CreateTourController;
 use App\Http\Controllers\V1\Api\Guide\DashboardController;
 use App\Http\Controllers\V1\Api\Guide\RegistrationController;
 use App\Http\Controllers\V1\Api\Guide\TourListingController;
+use App\Http\Controllers\V1\Api\Guide\UpdateTourController;
 use App\Http\Controllers\V1\Api\GuideDetailsController;
 use App\Http\Controllers\V1\Api\GuideSearchController;
 use App\Http\Controllers\V1\Api\Messaging\MessagesController;
@@ -69,6 +70,7 @@ Route::prefix('v1')->group(function () {
             Route::prefix('tours')->name('tours.')->group(function (){
                 Route::get('/', TourListingController::class )->name('listing');
                 Route::post('create', CreateTourController::class )->name('create');
+                Route::post('update/{tour}', UpdateTourController::class )->name('update');
             });
         });
 
@@ -123,7 +125,8 @@ Route::prefix('v1')->group(function () {
         Route::get('tour-categories/{slug}', [TourCategoryController::class, 'getCategory'])->name('tour_categories.single');
         Route::get('featured-tours', FeaturedToursController::class)->name('tours.featured');
         Route::get('search-tours', SearchTourController::class)->name('tours.search');
-        Route::get('tours/{tour:slug}', TourDetailController::class)->name('tours.detail');
+        Route::get('tours/get/{tour}', TourDetailController::class)->name('tours.detail');
+        Route::get('tours/{tour:slug}', TourDetailController::class)->name('tours.detail.slug');
         Route::post('contact-submit', SubmitContactController::class)->name('contact.submit');
     });
 
