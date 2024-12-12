@@ -4,6 +4,7 @@ namespace App\Services\Guide;
 
 use App\Models\Tour;
 use App\Notifications\Guide\TourCreatedNotification;
+use App\Notifications\Guide\TourUpdateNotification;
 use App\Services\BaseService;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
@@ -44,6 +45,22 @@ class TourService extends BaseService
         ]);
     }
 
+    public function updateTour(Tour $tour, array $validated): array
+    {
+        $tour->update($validated);
+
+        $this->uploadTourImages($tour);
+
+        $this->addTourDays($tour, $validated['tour_days']);
+
+        auth()->user()->notify(new TourUpdateNotification($tour));
+
+        return $this->payload([
+            "tour" => $tour,
+            "message" => "Tour updated successfully!"
+        ]);
+    }
+
     /**
      * @param Tour $tour
      * @return void
@@ -51,6 +68,16 @@ class TourService extends BaseService
     private function uploadTourImages(Tour $tour): void
     {
         $fileNames = [];
+
+        if(request()->has('existing_images')){
+            $tour->images()->delete();
+            foreach (request()->existing_images as $image) {
+                $image = json_decode($image, true);
+                $tour->images()->create([
+                    'image' => $image['image'],
+                ]);
+            }
+        }
 
         if(request()->hasFile('tour_images')){
             $images = request()->tour_images;
@@ -75,6 +102,7 @@ class TourService extends BaseService
     private function addTourDays(Tour $tour, array $days): void
     {
         if(!empty($days) && count($days) > 0){
+            $tour->tour_days()->delete();
             $order = 0;
             foreach ($days as $day) {
                 $dayObj = json_decode($day, true);
@@ -94,6 +122,7 @@ class TourService extends BaseService
     private function addTourAvailability(Tour $tour, array $available_dates): void
     {
         if(!empty($available_dates) && count($available_dates) > 0){
+            $tour->tour_availability()->delete();
             foreach ($available_dates as $date) {
                 $dateObj = json_decode($date, true);
                 $tour->tour_availability()->create($dateObj);
@@ -110,4 +139,6 @@ class TourService extends BaseService
     {
         return $this->tour->where('user_id', $user_id)->published()->latest()->paginate(6);
     }
+
+
 }

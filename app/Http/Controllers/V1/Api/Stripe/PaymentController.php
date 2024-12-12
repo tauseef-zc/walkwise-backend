@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Payments\PaymentResource;
 use App\Models\Booking;
 use App\Models\Payment;
+use App\Models\Thread;
+use App\Models\ThreadParticipant;
+use App\Models\Tour;
 use App\Services\Stripe\StripeService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -64,6 +67,7 @@ class PaymentController extends Controller
             $booking->update(['status' => 1]);
 
             $payment = $this->createPayment($booking, $data);
+            $this->createThread($booking->tour);
 
             return response()->json([
                 'status' => 'success',
@@ -104,6 +108,29 @@ class PaymentController extends Controller
             'transaction_ref' => json_encode($data['payment_ref']),
             'status' => 1,
         ]);
+    }
+
+    private function createThread(Tour $tour): void
+    {
+        $participants = [];
+        $participants[] = auth()->id();
+        $participants[] = $tour->user_id;
+
+
+        $thread = Thread::whereHas('participants', function ($query) use ($participants) {
+            foreach ($participants as $participant) {
+                $query->where('user_id', $participant);
+            }
+        })->first();
+
+        if(!$thread){
+            $thread = Thread::create([]);
+            foreach ($participants as $participant) {
+                $thread->participants()->create([
+                    'user_id' => $participant,
+                ]);
+            }
+        }
     }
 
 }

@@ -37,7 +37,7 @@ class LoginControllerTest extends TestCase
             'password' => 'invalid password',
         ]);
 
-        $response->assertStatus(Response::HTTP_UNAUTHORIZED);
+        $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
     #[Test]
