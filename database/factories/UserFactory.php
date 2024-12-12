@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Enums\GenderEnum;
 use App\Enums\UserStatusEnum;
+use App\Enums\UserTypesEnum;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
@@ -38,6 +39,7 @@ class UserFactory extends Factory
             'primary_lang' => 'English',
             'other_lang' => ['Other'],
             'rating' => $this->faker->randomFloat(1, 1, 5),
+            'user_type' => UserTypesEnum::USER,
             'is_admin' => false,
             'status' => UserStatusEnum::ACTIVE->value
         ];

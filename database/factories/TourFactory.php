@@ -7,6 +7,7 @@ use App\Models\Tour;
 use App\Models\TourAvailability;
 use App\Models\TourCategory;
 use App\Models\TourDay;
+use App\Models\User;
 use Database\Factories\helpers\TourFactoryHelper;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -24,8 +25,9 @@ class TourFactory extends Factory
      */
     public function definition(): array
     {
+        $user = User::factory()->create();
         $location = $this->getRandomLocation();
-        $category = TourCategory::inRandomOrder()->first();
+        $category = TourCategory::inRandomOrder()->first() ?? TourCategory::factory()->create();
         $day = $this->faker->numberBetween(1, 5);
         $title = $location['name']." $day Days of ". $category->category ." Tour";
 
@@ -47,7 +49,7 @@ class TourFactory extends Factory
             'featured' => $this->faker->boolean(),
             'tour_category_id' => $category->id,
             'rating' => $this->faker->randomFloat(1, 1, 5),
-            'user_id' => $this->faker->numberBetween(1, 10),
+            'user_id' => $user->id,
         ];
     }
 
