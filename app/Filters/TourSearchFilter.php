@@ -75,7 +75,7 @@ class TourSearchFilter extends Filter
 
         return $this->builder->when(!empty($lat) && !empty($lng), function ($query) use ($lat, $lng) {
             $earthRadius = 6371; // Earth's radius in kilometers
-            $radius = 30;
+            $radius = 20;
             return $query->whereRaw(
                 "(
                     $earthRadius * acos(
