@@ -25,7 +25,7 @@ class TourFactory extends Factory
      */
     public function definition(): array
     {
-        $user = User::factory()->create();
+        $user = User::query()->inRandomOrder()->first() ?? User::factory()->create();
         $location = $this->getRandomLocation();
         $category = TourCategory::inRandomOrder()->first() ?? TourCategory::factory()->create();
         $day = $this->faker->numberBetween(1, 5);
